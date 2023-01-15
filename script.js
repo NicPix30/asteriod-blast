@@ -15,7 +15,12 @@ const optionsButton = document.querySelector('#optionsButton');
 const easyButton = document.querySelector('#easyButton');
 const mediumButton = document.querySelector('#mediumButton');
 const hardButton = document.querySelector('#hardButton');
+const upgradeScreen = document.querySelector('#upgradeScreen');
+const upgradeButton = document.querySelector('#upgradeButton');
+const returnUpgradeButton = document.querySelector('#returnUpgradeButton');
 
+upgradeButton.style.display = 'flex';
+upgradeScreen.style.display = 'none';
 optionsButton.style.display = 'flex';
 returnButton.style.display = 'none';
 pauseScreen.style.display = 'none';
@@ -45,7 +50,6 @@ class Player {
 function changeVolume() {
   bgMusic.volume = document.getElementById('volumeSlider').value;
 }
-
 
 function changeSFXVolume() {
   gunShot.volume = document.getElementById('SFXSLider').value;
@@ -184,65 +188,61 @@ let spawnInterval;
 let enemySpawnRate = 1300;
 
 function spawnEnemies() {
-  
-    spawnInterval = setInterval(() => {
-      const radius = Math.random() * (30 - 12) + 12;
+  spawnInterval = setInterval(() => {
+    const radius = Math.random() * (30 - 12) + 12;
 
-      let x;
-      let y;
+    let x;
+    let y;
 
-      if (Math.random() < 0.5) {
-        x = Math.random() < 0.5 ? 0 - radius : canvas.width + radius;
-        y = Math.random() * canvas.height;
-      } else {
-        x = Math.random() * canvas.width;
-        y = Math.random() < 0.5 ? 0 - radius : canvas.height + radius;
-      }
+    if (Math.random() < 0.5) {
+      x = Math.random() < 0.5 ? 0 - radius : canvas.width + radius;
+      y = Math.random() * canvas.height;
+    } else {
+      x = Math.random() * canvas.width;
+      y = Math.random() < 0.5 ? 0 - radius : canvas.height + radius;
+    }
 
-      const color = `hsl(${Math.random() * 360}, 50%, 50%)`;
-      const angle = Math.atan2(canvas.height / 2 - y, canvas.width / 2 - x);
+    const color = `hsl(${Math.random() * 360}, 50%, 50%)`;
+    const angle = Math.atan2(canvas.height / 2 - y, canvas.width / 2 - x);
 
-      const velocity = {
-        x: Math.cos(angle),
-        y: Math.sin(angle),
-      };
-      enemies.push(new Enemy(x, y, radius, color, velocity));
-    }, enemySpawnRate);
-  
+    const velocity = {
+      x: Math.cos(angle),
+      y: Math.sin(angle),
+    };
+    enemies.push(new Enemy(x, y, radius, color, velocity));
+  }, enemySpawnRate);
 }
 
 let healthInterval;
 
 function spawnHealth() {
-  
-    healthInterval = setInterval(() => {
-      const outRadius = 20;
-      const inrRadius = 12;
+  healthInterval = setInterval(() => {
+    const outRadius = 20;
+    const inrRadius = 12;
 
-      let x;
-      let y;
+    let x;
+    let y;
 
-      if (Math.random() < 0.5) {
-        x = Math.random() < 0.5 ? 0 - outRadius : canvas.width + outRadius;
-        y = Math.random() * canvas.height;
-      } else {
-        x = Math.random() * canvas.width;
-        y = Math.random() < 0.5 ? 0 - outRadius : canvas.height + outRadius;
-      }
+    if (Math.random() < 0.5) {
+      x = Math.random() < 0.5 ? 0 - outRadius : canvas.width + outRadius;
+      y = Math.random() * canvas.height;
+    } else {
+      x = Math.random() * canvas.width;
+      y = Math.random() < 0.5 ? 0 - outRadius : canvas.height + outRadius;
+    }
 
-      const outColor = 'rgba(255, 255, 255, 1)';
-      const inrColor = 'rgba(179, 12, 12, 1)';
-      const angle = Math.atan2(canvas.height / 2 - y, canvas.width / 2 - x);
+    const outColor = 'rgba(255, 255, 255, 1)';
+    const inrColor = 'rgba(179, 12, 12, 1)';
+    const angle = Math.atan2(canvas.height / 2 - y, canvas.width / 2 - x);
 
-      const velocity = {
-        x: Math.cos(angle),
-        y: Math.sin(angle),
-      };
-      health.push(
-        new HealthD(x, y, outRadius, inrRadius, inrColor, outColor, velocity)
-      );
-    }, healthSpawnRate);
-  
+    const velocity = {
+      x: Math.cos(angle),
+      y: Math.sin(angle),
+    };
+    health.push(
+      new HealthD(x, y, outRadius, inrRadius, inrColor, outColor, velocity)
+    );
+  }, healthSpawnRate);
 }
 
 let animationId;
@@ -302,7 +302,8 @@ function animate() {
     }
   });
 
-    function test(){enemies.forEach((enemy, index) => {
+  function test() {
+    enemies.forEach((enemy, index) => {
       {
         enemy.update();
 
@@ -321,7 +322,10 @@ function animate() {
         }
 
         projectiles.forEach((projectile, projectileIndex) => {
-          const dist = Math.hypot(projectile.x - enemy.x, projectile.y - enemy.y);
+          const dist = Math.hypot(
+            projectile.x - enemy.x,
+            projectile.y - enemy.y
+          );
           // when projectiles touch enemy
           if (dist - enemy.radius - projectile.radius < 1) {
             // create explosions
@@ -368,11 +372,9 @@ function animate() {
     });
   }
   test();
-
 }
 
 let paused = false;
-let gamePlaying = false;
 
 addEventListener('click', () => {
   if (paused == false) {
@@ -394,78 +396,95 @@ addEventListener('click', () => {
   }
 });
 
-
 optionsButton.addEventListener('click', () => {
-	cancelAnimationFrame(animationId);
-	paused = !paused
-	pauseScreen.style.display = 'flex'
-	returnButton.style.display = 'flex'
-	optionsButton.style.display = 'none'	
-  clearInterval(spawnInterval);	
-  clearInterval(healthInterval)
-})
+  cancelAnimationFrame(animationId);
+  paused = true;
+  pauseScreen.style.display = 'flex';
+  returnButton.style.display = 'flex';
+  optionsButton.style.display = 'none';
+  clearInterval(spawnInterval);
+  clearInterval(healthInterval);
+});
 
 easyButton.addEventListener('click', () => {
-	pauseScreen.style.display = 'none'
-	if(gamePlaying == true)
-	{
-		animate()
-	}
-	optionsButton.style.display = 'flex'
-	paused = false;
-	enemySpawnRate = 1500;
-  healthSpawnRate = 10000;
+  pauseScreen.style.display = 'none';
+  paused = false;
+  animate();
   spawnEnemies();
   spawnHealth();
-		
-})
+  optionsButton.style.display = 'flex';
+  enemySpawnRate = 1500;
+  healthSpawnRate = 10000;
+});
 
 mediumButton.addEventListener('click', () => {
-	pauseScreen.style.display = 'none'
-	if(gamePlaying == true)
-	{
-		animate()
-	}
-	optionsButton.style.display = 'flex'
-	paused = false;
-	enemySpawnRate = 1300;
-  healthSpawnRate = 15000;
+  pauseScreen.style.display = 'none';
+  paused = false;
+  animate();
   spawnEnemies();
   spawnHealth();
-		
-})
+  optionsButton.style.display = 'flex';
+  enemySpawnRate = 1300;
+  healthSpawnRate = 15000;
+});
 
 hardButton.addEventListener('click', () => {
-	pauseScreen.style.display = 'none'
-	if(gamePlaying == true)
-	{
-		animate()
-	}
-	optionsButton.style.display = 'flex'
-	paused = false;
-	enemySpawnRate = 1100;
-  healthSpawnRate = 30000;
+  pauseScreen.style.display = 'none';
+  paused = false;
+  animate();
   spawnEnemies();
   spawnHealth();
-		
-})
+  optionsButton.style.display = 'flex';
+  enemySpawnRate = 1100;
+  healthSpawnRate = 30000;
+});
 
+upgradeButton.addEventListener('click', () => {
+  cancelAnimationFrame(animationId);
+  paused = true;
+  upgradeScreen.style.display = 'flex';
+  upgradeButton.style.display = 'none';
+  returnUpgradeButton.style.display = 'flex';
+  optionsButton.disabled = true;
+  clearInterval(spawnInterval);
+  clearInterval(healthInterval);
+});
 
+returnUpgradeButton.addEventListener('click', () => {
+  upgradeScreen.style.display = 'none';
+  paused = false;
+  animate();
+  spawnEnemies();
+  spawnHealth();
+  optionsButton.disabled = false;
+  pauseScreen.style.display = 'none';
+  optionsButton.style.display = 'flex';
+  upgradeButton.style.display = 'flex';
+});
 
 returnButton.addEventListener('click', () => {
-	pauseScreen.style.display = 'none'
-	if(gamePlaying == true)
-	{
-		animate()
-	}
+  pauseScreen.style.display = 'none';
+  paused = false;
+  animate();
   spawnEnemies();
   spawnHealth();
-  optionsButton.style.display = 'flex'
-	paused = false;
-		
-})
+  optionsButton.style.display = 'flex';
+});
 
+let isHidden;
+document.addEventListener('visibilitychange', function () {
+  if (document.visibilityState === 'hidden') {
+    isHidden = true;
+  }
+});
 
+document.addEventListener('visibilitychange', function () {
+  if (document.visibilityState === 'visible') {
+    isHidden = false;
+  }
+});
+
+let hiddenInBetween = false;
 
 startGameBtn.addEventListener('click', () => {
   init();
@@ -473,10 +492,24 @@ startGameBtn.addEventListener('click', () => {
   spawnEnemies();
   spawnHealth();
   bgMusic.play();
+  isHidden = false;
   paused = false;
-  gamePlaying = true;
   modalEl.style.display = 'none';
-  setInterval(function test() {
-    console.log(enemySpawnRate);
-  }, 1000)
+  setTimeout(function test() {
+    setInterval(function test() {
+      if (isHidden == true) {
+        hiddenInBetween = true;
+        cancelAnimationFrame(animationId);
+        clearInterval(spawnInterval);
+        clearInterval(healthInterval);
+      }
+
+      if (isHidden == false && hiddenInBetween == true) {
+        hiddenInBetween = false;
+        animate();
+        spawnEnemies();
+        spawnHealth();
+      }
+    }, 1000);
+  }, 5000);
 });

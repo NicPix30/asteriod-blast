@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Asteroid Blast</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="stylesheet" href="styles.css" />
+    <script type="module" src="script.js"></script>
+
+
+  <link
+    href="https://unpkg.com/tailwindcss@^1.0/dist/
+		tailwind.min.css"
+    rel="stylesheet"
+  />
+
+  <style>
+    body {
+      margin: 0;
+      background: black;
+    }
+  </style>
+  <div class="fixed text-white text-lg ml-2 mt-1 select-none">
+    <span id="scoreEl">Score: 0</span>
+  </div>
+
+  <button
+    id="optionsButton"
+    class="bg-blue-500 select-none"
+    style="
+      justify-content: center;
+      align-items: center;
+      position: fixed;
+      right: 92.5%;
+      bottom: 85%;
+      border-radius: 4px;
+      width: 100px;
+      height: 50px;
+      opacity: 0.8;
+    "
+  >
+    OPTIONS
+  </button>
+  <button
+    id="upgradeButton"
+    class="bg-blue-500 select-none"
+    style="
+      justify-content: center;
+      align-items: center;
+      position: fixed;
+      right: 0%;
+      bottom: 85%;
+      border-radius: 4px;
+      width: 100px;
+      height: 50px;
+      opacity: 0.8;
+    "
+  >
+    UPGRADES
+  </button>
+
+  <div
+    class="fixed inset-0 flex items-center justify-center select-none"
+    id="modalEl"
+
+  >
+    <div
+      class="bg-white max-w-md w-full p-6 text-center"
+      style="border-radius: 8px"
+    >
+      <h1 class="text-4xl font-bold leading-none" id="bigScoreEl">0</h1>
+      <p class="text-sm text-gray-700 mb-4">Points</p>
+      <div>
+        <button
+          class="bg-blue-500 text-white w-full py-3 rounded-full"
+          style="border-radius: 8px;"
+          id="startGameBtn"
+        >
+          Start Game
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div
+    class="fixed inset-0 flex-center items-center justify-center select-none"
+    style="display: flex"
+    id="pauseScreen"
+  >
+    <div
+      class="bg-white max-w-full w-full max-h-full h-full p-6 text-center"
+      style="opacity: 0.8"
+    >
+      <p style="position: absolute; right: 42.5%; bottom: 40%; display: flex">
+        Background Music Volume
+      </p>
+      <div
+        class="slidecontainer"
+        style="position: absolute; right: 35%; bottom: 35%; display: flex"
+      >
+        <input
+          type="range"
+          min="0"
+          step="0.01"
+          oninput="changeVolume()"
+          max="1"
+          value="1"
+          id="volumeSlider"
+          style="display: flex; width: 400px"
+        />
+      </div>
+      <p style="position: absolute; right: 46.5%; bottom: 50%; display: flex">
+        SFX Volume
+      </p>
+      <div
+        class="slidecontainer"
+        style="position: absolute; right: 35%; bottom: 45%; display: flex"
+      >
+        <input
+          type="range"
+          min="0"
+          step="0.01"
+          oninput="changeSFXVolume()"
+          max="1"
+          value="1"
+          id="SFXSLider"
+          style="display: flex; width: 400px"
+        />
+      </div>
+      <div style="display: flex; justify-content: center">
+        <button
+          class="bg-blue-500 text-white w-full py-6"
+          style="
+            position: absolute;
+            bottom: 10%;
+            justify-content: center;
+            align-items: center;
+            width: 50%;
+            font-size: 24px;
+            border-radius: 8px;
+          "
+          id="returnButton"
+        >
+          Return
+        </button>
+      </div>
+      <div style="justify-content: center">
+        <button
+          class="bg-blue-500 text-white py-6"
+          style="position: absolute; bottom: 70%; right: 70%; width: 200px; border-radius:8px"
+          id="easyButton"
+        >
+          Easy
+        </button>
+        <button
+          class="bg-blue-500 text-white py-6"
+          style="position: absolute; bottom: 70%; right: 43%; width: 200px; border-radius:8px"
+          id="mediumButton"
+        >
+          Medium
+        </button>
+        <button
+          class="bg-blue-500 text-white py-6"
+          style="position: absolute; bottom: 70%; right: 13%; width: 200px; border-radius:8px"
+          id="hardButton"
+        >
+          Hard
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div
+    class="fixed inset-0 flex-center items-center justify-center select-none"
+    style="display: flex; position:relative; left: 33%; top: 10%; left:35%; height: 80%" 
+    id="upgradeScreen"
+  >
+  <!--the one below controls the screen width and height-->
+    <div
+      class="bg-white p-6 text-center"
+      style=" position: relative; opacity: 0.8; width:25%; height: 100%;"
+    >
+      <div style="display: flex; justify-content: center; position: relative; top:75%; height: 5%; width:21%; align-items: center;position: fixed;">
+        <button
+          class="bg-blue-500 text-white w-full py-6"
+          style="
+            text-align:center;
+            width:50%;
+            height:10%;
+            font-size: 15px;
+            line-height:50%;
+            border-radius: 8px;
+          "
+          id="returnUpgradeButton"
+        >
+          RETURN
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div
+    class="text-white text-lg select-none"
+    style="position: fixed; right: 1%; bottom: 95%"
+    id="healthEl"
+  >
+    0
+  </div>
+
+  <div
+    style="
+      display: table-cell;
+      text-align: right;
+      position: fixed;
+      bottom: 0;
+      right: 0;
+    "
+  >
+    <div class="text-white text-lg select-none" id="verId">ver 1.4.2</div>
+  </div>
+  <canvas></canvas>
+
+  <script
+    src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.5.1/gsap.min.js"
+    integrity="sha512-IQLehpLoVS4fNzl7IfH8Iowfm5+RiMGtHykgZJl9AWMgqx0AmJ6cRWcB+GaGVtIsnC4voMfm8f2vwtY+6oPjpQ=="
+    crossorigin="anonymous"
+  ></script>
+</html>
