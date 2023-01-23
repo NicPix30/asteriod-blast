@@ -173,7 +173,7 @@
   <div
   class="fixed inset-0 flex items-center justify-center select-none"
   id="upgradeScreen"
-
+  style='opacity:0.8'
 >
   <div
     class="bg-white max-w-md w-full p-6 text-center"
@@ -182,16 +182,52 @@
     <div>
       <button
         class="bg-blue-500 text-white w-full py-3 rounded-full"
-        style="border-radius: 8px; position:absolute; top:80%; left:0%; justify-content:center;"
+        style="border-radius: 8px; position:absolute; top:80%; left:25%; justify-content:center; width:50%;"
         id="returnUpgradeButton"
       >
         RETURN
       </button>
+    <div>
+    <h4 style="position:absolute; top:30%; left:13.5%;">Rear Gun</h4>
+    <h6 style='position:absolute; top:15%; left:10%'>Cost: 10,000</h6>
+
+      <button
+        class="bg-blue-500 text-white w-full py-3 rounded-full"
+        style="border-radius: 8px; position:absolute; top:20%; left:15%; justify-content:center; width:12.5%;"
+        id="DoubleBtn"
+      >
+        Double
+      </button>
     </div>
+    <div>
+      <h4 style='position:absolute; top:30%; left:42%'>+1 Health</h4>
+      <h6 style='position:absolute; top:15%; left:40%'>Cost: 1,500</h6>
+      <button
+        class="bg-blue-500 text-white w-full py-3 rounded-full"
+        style="border-radius: 8px; position:absolute; top:20%; left:43.75%; justify-content:center; width:12.5%;"
+        id="HealthBtn"
+      >
+        Health
+      </button>
+    </div>
+    <h6 style='position:absolute; top:15%; left:66.5%'>Cost: 30,000</h6>
+    <h4 style='position:absolute; top:30%; left:70.5%'>ShotGun</h4>
+
+      <button
+        class="bg-blue-500 text-white w-full py-3 rounded-full"
+        style="border-radius: 8px; position:absolute; top:20%; left:70%; justify-content:center; width:15%;"
+        id="ShotgunBtn"
+      >
+        Shotgun
+      </button>
+    </div>
+    </div>
+
   </div>
 </div>
 
 
+  <h5 style="position:absolute; left:94%; top:1.02%; color:white;">Health:</h5>
   <div
     class="text-white text-lg select-none"
     style="position: fixed; right: 1%; bottom: 95%"
