@@ -18,6 +18,9 @@ const hardButton = document.querySelector('#hardButton');
 const upgradeScreen = document.querySelector('#upgradeScreen');
 const upgradeButton = document.querySelector('#upgradeButton');
 const returnUpgradeButton = document.querySelector('#returnUpgradeButton');
+const doublebtn = document.querySelector('#DoubleBtn');
+const healthbtn = document.querySelector('#HealthBtn');
+const shotgbtn = document.querySelector('#ShotgunBtn');
 
 upgradeButton.style.display = 'flex';
 upgradeScreen.style.display = 'none';
@@ -169,9 +172,12 @@ let projectiles = [];
 let enemies = [];
 let health = [];
 let particles = [];
+let rearUnlock = false;
+let extraHealthUnlock = false;
+let shotgun = false;
 
 function init() {
-  player = new Player(x, y, 10, 'white', 100, 5);
+  player = new Player(x, y, 10, 'white', 3, 5);
   projectiles = [];
   enemies = [];
   particles = [];
@@ -327,7 +333,13 @@ function animate() {
             projectile.y - enemy.y
           );
           // when projectiles touch enemy
-          if (dist - enemy.radius - projectile.radius < 1) {
+          if (
+            Math.sqrt(
+              (projectile.x - enemy.x) * (projectile.x - enemy.x) +
+                (projectile.y - enemy.y) * (projectile.y - enemy.y)
+            ) <
+            projectile.radius + enemy.radius
+          ) {
             // create explosions
             for (let i = 0; i < enemy.radius * 2; i++) {
               particles.push(
@@ -362,6 +374,7 @@ function animate() {
               scoreEl.innerHTML = score;
 
               setTimeout(() => {
+                console.log('test');
                 enemies.splice(index, 1);
                 projectiles.splice(projectileIndex, 1);
               }, 0);
@@ -388,9 +401,112 @@ addEventListener('click', () => {
       y: Math.sin(angle) * 5,
     };
 
-    projectiles.push(
-      new Projectile(canvas.width / 2, canvas.height / 2, 5, 'white', velocity)
-    );
+    if (shotgun == true) {
+      let velocity1 = {
+        x: velocity.x + Math.random() * 3,
+        y: velocity.y + Math.random() * 3,
+      };
+
+      let velocity2 = {
+        x: velocity.x + Math.random() * 3,
+        y: velocity.y + Math.random() * 3,
+      };
+
+      let velocity3 = {
+        x: velocity.x - Math.random() * 3,
+        y: velocity.y - Math.random() * 3,
+      };
+
+      let velocity4 = {
+        x: velocity.x - Math.random() * 3,
+        y: velocity.y - Math.random() * 3,
+      };
+      /*projectiles.push(
+        new Projectile(
+          canvas.width / 2,
+          canvas.height / 2,
+          5,
+          'white',
+          velocity1
+        )
+      );*/
+
+      projectiles.push(
+        new Projectile(
+          canvas.width / 2,
+          canvas.height / 2,
+          5,
+          'white',
+          velocity2
+        )
+      );
+
+      projectiles.push(
+        new Projectile(
+          canvas.width / 2,
+          canvas.height / 2,
+          5,
+          'white',
+          velocity
+        )
+      );
+
+      projectiles.push(
+        new Projectile(
+          canvas.width / 2,
+          canvas.height / 2,
+          5,
+          'white',
+          velocity3
+        )
+      );
+
+      /*projectiles.push(
+        new Projectile(
+          canvas.width / 2,
+          canvas.height / 2,
+          5,
+          'white',
+          velocity4
+        )
+      );*/
+    }
+
+    if (rearUnlock == true) {
+      projectiles.push(
+        new Projectile(
+          canvas.width / 2,
+          canvas.height / 2,
+          5,
+          'white',
+          velocity
+        )
+      );
+      const newVolocity = {
+        x: velocity.x * -1,
+        y: velocity.y * -1,
+      };
+      projectiles.push(
+        new Projectile(
+          canvas.width / 2,
+          canvas.height / 2,
+          5,
+          'white',
+          newVolocity
+        )
+      );
+    } else {
+      projectiles.push(
+        new Projectile(
+          canvas.width / 2,
+          canvas.height / 2,
+          5,
+          'white',
+          velocity
+        )
+      );
+    }
+
     gunShot.currentTime = 0;
     gunShot.play();
   }
@@ -469,6 +585,31 @@ returnButton.addEventListener('click', () => {
   spawnEnemies();
   spawnHealth();
   optionsButton.style.display = 'flex';
+});
+
+doublebtn.addEventListener('click', () => {
+  if (score >= 10000) {
+    score -= 10000;
+    scoreEl.innerHTML = score;
+    rearUnlock = true;
+  }
+});
+
+shotgbtn.addEventListener('click', () => {
+  if (score >= 30000) {
+    score -= 30000;
+    scoreEl.innerHTML = score;
+    shotgun = true;
+  }
+});
+
+healthbtn.addEventListener('click', () => {
+  if (score >= 100) {
+    score -= 100;
+    player.health = player.health + 1;
+    scoreEl.innerHTML = score;
+    healthEl.innerHTML = player.health;
+  }
 });
 
 let isHidden;

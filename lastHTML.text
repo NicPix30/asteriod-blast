@@ -171,33 +171,26 @@
   </div>
 
   <div
-    class="fixed inset-0 flex-center items-center justify-center select-none"
-    style="display: flex; position:relative; left: 33%; top: 10%; left:35%; height: 80%" 
-    id="upgradeScreen"
+  class="fixed inset-0 flex items-center justify-center select-none"
+  id="upgradeScreen"
+
+>
+  <div
+    class="bg-white max-w-md w-full p-6 text-center"
+    style="border-radius: 8px; position:absolute; top:10%; height:80%; width:33.334%; left:66%;"
   >
-  <!--the one below controls the screen width and height-->
-    <div
-      class="bg-white p-6 text-center"
-      style=" position: relative; opacity: 0.8; width:25%; height: 100%;"
-    >
-      <div style="display: flex; justify-content: center; position: relative; top:75%; height: 5%; width:21%; align-items: center;position: fixed;">
-        <button
-          class="bg-blue-500 text-white w-full py-6"
-          style="
-            text-align:center;
-            width:50%;
-            height:10%;
-            font-size: 15px;
-            line-height:50%;
-            border-radius: 8px;
-          "
-          id="returnUpgradeButton"
-        >
-          RETURN
-        </button>
-      </div>
+    <div>
+      <button
+        class="bg-blue-500 text-white w-full py-3 rounded-full"
+        style="border-radius: 8px; position:absolute; top:80%; left:0%; justify-content:center;"
+        id="returnUpgradeButton"
+      >
+        RETURN
+      </button>
     </div>
   </div>
+</div>
+
 
   <div
     class="text-white text-lg select-none"
