@@ -34,6 +34,25 @@ bgMusic.volume = 1;
 let gunShot = new Audio('gunShot.mp3');
 gunShot.volume = 1;
 
+var backgroundImage = new Image();
+
+function DrawBG() {
+  c.drawImage(
+    backgroundImage,
+    (canvas.width - canvas.height * 1.7777778) / 2,
+    0,
+    canvas.height * 1.777778,
+    canvas.height
+  );
+}
+
+backgroundImage.onload = function () {
+  DrawBG();
+};
+
+backgroundImage.src =
+  'https://cdn.jsdelivr.net/gh/NicPix30/web-platform-bqsnyo-asteriod-blast@main/sr204af6541cc8e.png';
+
 class Player {
   constructor(x, y, radius, color, health) {
     this.x = x;
@@ -255,6 +274,7 @@ let animationId;
 let score = 0;
 function animate() {
   animationId = requestAnimationFrame(animate);
+  DrawBG();
   c.fillStyle = 'rgba(0, 0, 0, 0.1)';
   c.fillRect(0, 0, canvas.width, canvas.height);
   player.draw();
