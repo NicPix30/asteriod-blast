@@ -301,9 +301,14 @@ function animate() {
     healthD.update();
     const dist = Math.hypot(player.x - healthD.x, player.y - healthD.y);
     // when health hits player
-    if (dist - healthD.outRadius - player.radius < 1) {
+    if (dist - healthD.outRadius - player.radius < 1 && player.health < 5) {
       player.health += 1;
       healthEl.innerHTML = player.health;
+      health.splice(index, 1);
+    } else if (
+      dist - healthD.outRadius - player.radius < 1 &&
+      player.health >= 5
+    ) {
       health.splice(index, 1);
     }
   });
