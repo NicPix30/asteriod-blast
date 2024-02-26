@@ -20,7 +20,7 @@
       background: black;
     }
   </style>
-  <div class="fixed text-white text-lg ml-2 mt-1 select-none">
+  <div class="fixed text-white text-5xl ml-2 mt-1 select-none">
     <span id="scoreEl">Score: 0</span>
   </div>
 
@@ -229,7 +229,7 @@
 
   <h5 style="position:absolute; left:94%; top:1.02%; color:white;">Health:</h5>
   <div
-    class="text-white text-lg select-none"
+    class="text-white text-5xl select-none"
     style="position: fixed; right: 1%; bottom: 95%"
     id="healthEl"
   >
