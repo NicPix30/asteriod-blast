@@ -29,11 +29,10 @@ returnButton.style.display = 'none';
 pauseScreen.style.display = 'none';
 
 let bgMusic = new Audio('bgMusic.mp3');
-bgMusic.volume = .5;
+bgMusic.volume = 0.5;
 
 let gunShot = new Audio('gunShot.mp3');
-gunShot.volume = .5;
-
+gunShot.volume = 0.5;
 
 class Player {
   constructor(x, y, radius, color, health) {
@@ -182,6 +181,10 @@ function init() {
   projectiles = [];
   enemies = [];
   particles = [];
+  if (localStorage.getItem('highscore') < score) {
+    localStorage.setItem('highscore', score);
+    console.log('setting storage = to highscore');
+  }
   score = 0;
   health = [];
   scoreEl.innerHTML = score;
@@ -329,7 +332,7 @@ function animate() {
           if (player.health <= 0) {
             cancelAnimationFrame(animationId);
             modalEl.style.display = 'flex';
-            bigScoreEl.innerHTML = score * 10;
+            bigScoreEl.innerHTML = localStorage.getItem('highscore') * 10;
           }
         }
 
@@ -380,7 +383,6 @@ function animate() {
               scoreEl.innerHTML = score;
 
               setTimeout(() => {
-                console.log('test');
                 enemies.splice(index, 1);
                 projectiles.splice(projectileIndex, 1);
               }, 0);
@@ -632,9 +634,29 @@ document.addEventListener('visibilitychange', function () {
 });
 
 let hiddenInBetween = false;
+let canStore,
+  storageFound = false;
+
+window.onload = checkForStorage();
+
+function checkForStorage() {
+  if (typeof Storage == !undefined) {
+    canStore = true;
+  }
+  if (localStorage.getItem('highscore') == !undefined) {
+    if (localStorage.getItem < score) {
+      localStorage.setItem('highscore', score);
+      console.log('Storage found and less than score');
+    }
+  } else {
+    localStorage.setItem('highscore', 0);
+    console.log('storage not found, setting 0');
+  }
+}
 
 startGameBtn.addEventListener('click', () => {
   init();
+  console.log(localStorage.getItem('highscore'));
   animate();
   spawnEnemies();
   spawnHealth();
