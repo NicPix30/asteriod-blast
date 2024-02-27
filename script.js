@@ -181,10 +181,7 @@ function init() {
   projectiles = [];
   enemies = [];
   particles = [];
-  if (localStorage.getItem('highscore') < score) {
-    localStorage.setItem('highscore', score);
-    console.log('setting storage = to highscore');
-  }
+
   score = 0;
   health = [];
   scoreEl.innerHTML = score;
@@ -332,6 +329,10 @@ function animate() {
           if (player.health <= 0) {
             cancelAnimationFrame(animationId);
             modalEl.style.display = 'flex';
+            if (localStorage.getItem('highscore') < score) {
+              localStorage.setItem('highscore', score);
+              console.log('setting storage = to highscore');
+            }
             bigScoreEl.innerHTML = localStorage.getItem('highscore') * 10;
           }
         }
@@ -656,7 +657,6 @@ function checkForStorage() {
 
 startGameBtn.addEventListener('click', () => {
   init();
-  console.log(localStorage.getItem('highscore'));
   animate();
   spawnEnemies();
   spawnHealth();
