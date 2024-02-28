@@ -645,6 +645,7 @@ function checkForStorage() {
     canStore = true;
   }
   if (localStorage.getItem('highscore') == !undefined) {
+    bigScoreEl.innerHTML = localStorage.getItem('highscore');
     if (localStorage.getItem < score) {
       localStorage.setItem('highscore', score);
       console.log('Storage found and less than score');
